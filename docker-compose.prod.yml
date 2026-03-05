@@ -1,0 +1,31 @@
+# ============================================================
+# À FUSIONNER dans ton /root/docker-compose.yml existant
+# (ou à lancer séparément avec : docker compose -f docker-compose.prod.yml up -d)
+# ============================================================
+#
+# REMPLACE "cave.tondomaine.com" par ton vrai sous-domaine
+# et assure-toi que le nom du réseau Traefik correspond
+# (vérifie avec : docker network ls)
+# ============================================================
+
+services:
+  wine-cellar-bot:
+    build:
+      context: /root/Wine-Cellar-Agent  # chemin sur le serveur
+      dockerfile: Dockerfile
+    container_name: wine-cellar-bot
+    restart: unless-stopped
+    env_file:
+      - /root/Wine-Cellar-Agent/.env    # ton .env de prod sur le serveur
+    networks:
+      - root_default                   # réseau partagé avec Traefik/N8N
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wine-cellar-bot.rule=Host(`cave.tondomaine.com`)"
+      - "traefik.http.routers.wine-cellar-bot.entrypoints=websecure"
+      - "traefik.http.routers.wine-cellar-bot.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.wine-cellar-bot.loadbalancer.server.port=8000"
+
+networks:
+  root_default:
+    external: true    # réseau déjà créé par Traefik/N8N (root_default)
