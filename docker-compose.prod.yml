@@ -21,7 +21,7 @@ services:
       - root_default                   # réseau partagé avec Traefik/N8N
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.wine-cellar-bot.rule=Host(`cave.tondomaine.com`)"
+      - "traefik.http.routers.wine-cellar-bot.rule=Host(`cave.srv1099522.hstgr.cloud`)"
       - "traefik.http.routers.wine-cellar-bot.entrypoints=websecure"
       - "traefik.http.routers.wine-cellar-bot.tls.certresolver=mytlschallenge"
       - "traefik.http.services.wine-cellar-bot.loadbalancer.server.port=8000"
