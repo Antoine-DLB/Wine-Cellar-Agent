@@ -5,8 +5,7 @@ import json
 import logging
 from typing import Any
 
-from mistralai import Mistral
-from mistralai.models import UserMessage, SystemMessage, AssistantMessage
+from mistralai.client import Mistral
 
 from app.models.conversation import MistralIntent
 from app.utils.prompts import (
